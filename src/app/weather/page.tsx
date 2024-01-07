@@ -1,5 +1,5 @@
 import HeaderLayout from '@/components/HeaderLayout';
-import SearchSection from '@/components/SearchSection';
+import WeatherForecast from '@/components/WeatherForecast';
 import { Typography } from '@mui/material';
 import _ from 'lodash';
 
@@ -8,10 +8,11 @@ const Weather: React.FC = () => {
 
 
     return (
-        <main>
+        <main className=''>
             <HeaderLayout />
-
-            <SearchSection />
+            <section className='container md:px-6 px-8 mx-auto relative '>
+                <WeatherForecast />
+            </section>
         </main>
     )
 };

@@ -7,11 +7,12 @@ import { Button } from '@mui/material';
 import { Typography } from '@mui/material';
 import HeaderLayout from '@/components/HeaderLayout';
 import { useRouter } from 'next/navigation';
-
+import { signIn, signOut, useSession } from 'next-auth/react';
 const label = { inputProps: { "aria-label": "Switch demo" } };
 
 export default function Login() {
   const router = useRouter();
+  const { data: session } = useSession();
   return (
     <>
 
@@ -27,13 +28,19 @@ export default function Login() {
               Welcome to the weather forecast web application. Please login with your <br /> GitHub user to use the application and view the weather in your city
             </Typography>
             <div className='mt-4 w-full flex-1 text-left'>
-              <Button variant="contained" onClick={() => router.push('/weather')}>Login</Button>
+              {!session ?
+                <Button variant="contained" onClick={() => signIn('github')
+
+                  // router.push('/weather')
+                }>Login</Button>
+                : null}
+
             </div>
           </div>
         </div>
       </section>
 
-      
+
     </>
 
   )
