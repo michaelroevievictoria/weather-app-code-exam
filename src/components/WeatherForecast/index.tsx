@@ -1,7 +1,6 @@
 'use client'
-import { Typography, TextField, Button, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Paper } from '@mui/material';
+import { Typography, TextField, Button, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import React, { useState, useEffect } from 'react';
-import icon from '/public/images/weather-icon.png'
 import SearchIcon from '@mui/icons-material/Search';
 import _ from 'lodash';
 import moment from 'moment';
@@ -57,10 +56,7 @@ const columns: readonly Column[] = [
 const WeatherForecast: React.FC<props> = ({
 
 }) => {
-
-
     const [viewportWidth, setViewportWidth] = useState<number>(window.innerWidth);
-
     const [searchText, setSearchText] = useState<string>('');
     const [isShowTable, setIshowTable] = useState<boolean>(false)
 
@@ -72,6 +68,7 @@ const WeatherForecast: React.FC<props> = ({
             window.location.href = '/';
         }
 
+        // Handle window resize
         const handleResize = () => setViewportWidth(window.innerWidth);
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
@@ -79,11 +76,12 @@ const WeatherForecast: React.FC<props> = ({
 
     }, []);
 
+    // Notify function for error toast
     const notify = () => {
         toast.error('No data found');
     };
     const fetchWeatherData = async () => {
-        const API_KEY = '63e44ba0c29de2206284aea9ebb476ec'; // Replace with your OpenWeatherMap API key
+        const API_KEY = process.env.NEXT_PUBLIC_WEATHER_API; // Replace with your OpenWeatherMap API key
         const cityName = searchText; // Replace with the city you want to get the forecast for
         const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${API_KEY}&units=metric`;
 
@@ -105,17 +103,6 @@ const WeatherForecast: React.FC<props> = ({
             console.error('Error fetching data:', error);
         }
     };
-
-    // console.log('weatherData', weatherData)
-
-    const rows: any = [{
-        date: '09/01/2020',
-        temp: '75',
-        description: 'asdasd',
-        main: 'clear',
-        pressure: 10123123,
-        humidity: 123
-    }]
 
     const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchText(event.target.value);
@@ -264,8 +251,6 @@ const WeatherForecast: React.FC<props> = ({
                                                             </TableCell>
                                                         );
                                                     })}
-
-
                                                 </TableRow>
                                             );
                                         })}
@@ -313,13 +298,10 @@ const WeatherForecast: React.FC<props> = ({
                                 style={{
                                     color: _.isEmpty(searchText) ? `#C6C6C6` : undefined, backgroundColor: _.isEmpty(searchText) ? `#EBEBE4` : undefined,
                                     cursor: _.isEmpty(searchText) ? 'not-allowed' : 'pointer'
-
-
                                 }}
                                 onClick={() => {
                                     fetchWeatherData()
 
-                                    // setIshowTable(true)
                                 }}>Display Weather</Button>
                         </div>
                     </div>
