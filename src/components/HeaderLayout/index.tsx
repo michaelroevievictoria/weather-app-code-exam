@@ -1,7 +1,8 @@
+'use client'
 // Import necessary dependencies
 import { Button } from '@mui/material';
 import icon from '/public/images/weather-icon.png'
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { signOut, useSession } from 'next-auth/react';
 
 // Define the props interface

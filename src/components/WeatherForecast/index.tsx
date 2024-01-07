@@ -89,7 +89,6 @@ const WeatherForecast: React.FC<props> = ({
             const response = await fetch(apiUrl);
             if (response.ok) {
                 const data = await response.json();
-                console.log('data', data)
                 setWeatherData([data]);
                 setIshowTable(true)
             } else {
