@@ -4,8 +4,8 @@ import { Typography } from '@mui/material';
 import _ from 'lodash';
 
 
-const Weather: React.FC = () => {
 
+const Weather: React.FC = () => {
 
     return (
         <main className=''>

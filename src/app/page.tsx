@@ -8,11 +8,20 @@ import { Typography } from '@mui/material';
 import HeaderLayout from '@/components/HeaderLayout';
 import { useRouter } from 'next/navigation';
 import { signIn, signOut, useSession } from 'next-auth/react';
+import { useEffect } from 'react';
 const label = { inputProps: { "aria-label": "Switch demo" } };
 
 export default function Login() {
   const router = useRouter();
   const { data: session } = useSession();
+  // console.log('test', process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID)
+  console.log('session', session)
+  useEffect(() => {
+    if (session) {
+      console.log('Redirecting to /weather...');
+      router.push('/weather')
+    }
+  }, [session])
   return (
     <>
 

@@ -3,6 +3,7 @@ import { Button } from '@mui/material';
 import icon from '/public/images/weather-icon.png'
 import { useRouter } from 'next/navigation';
 import { signIn, signOut, useSession } from 'next-auth/react';
+import { useEffect } from 'react';
 export interface props {
 
 };
@@ -12,6 +13,16 @@ const HeaderLayout: React.FC<props> = ({
 }) => {
   const router = useRouter();
   const { data: session } = useSession();
+  
+  
+
+  const handleSignOut = async () => {
+    await signOut(); // Sign out the user
+    // Delay the redirection for 1 second (1000 milliseconds)
+    window.location.href = '/';
+    // router.push('/'); // Redirect to the home page or any other page
+  };
+
   // const isLoggedIn = true; // Example variable indicating user authentication status
   return (
     <main className='bg-primary'>
@@ -23,9 +34,7 @@ const HeaderLayout: React.FC<props> = ({
               {session && (
 
                 <Button
-                  onClick={() => signOut()
-                    // router.push('/')
-                  }
+                  onClick={handleSignOut}
                   variant="outlined"
                   className="px-4 py-2"
                 >

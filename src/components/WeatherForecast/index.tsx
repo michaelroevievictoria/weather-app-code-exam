@@ -5,6 +5,7 @@ import icon from '/public/images/weather-icon.png'
 import SearchIcon from '@mui/icons-material/Search';
 import _ from 'lodash';
 import moment from 'moment';
+import { useSession } from 'next-auth/react';
 export interface props {
 
 };
@@ -50,9 +51,12 @@ const columns: readonly Column[] = [
     },
 
 ];
+
+
 const WeatherForecast: React.FC<props> = ({
 
 }) => {
+
 
     const [viewportWidth, setViewportWidth] = useState<number>(window.innerWidth);
 
@@ -61,11 +65,17 @@ const WeatherForecast: React.FC<props> = ({
 
     const [weatherData, setWeatherData] = useState<any>(null);
 
-
+    const { data: session } = useSession();
     useEffect(() => {
+        if (_.isEmpty(session)) { // auth checker
+            window.location.href = '/';
+        }
+
         const handleResize = () => setViewportWidth(window.innerWidth);
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
+
+
     }, []);
 
 
@@ -281,10 +291,10 @@ const WeatherForecast: React.FC<props> = ({
                 <div className='flex flex-col items-center justify-center h-full text-center'>
                     <div className='flex flex-col items-center'>
                         <Typography className='text-[#ffff] text-left mt-4 '>
-                            John Smith
+                            {_.get(session, 'user.name', '')}
                         </Typography>
                         <Typography className='text-[#ffff] text-left mt-4 '>
-                            https://github.com/test
+                            {_.get(session, 'user.email', '')}
                         </Typography>
                         <div className='mt-24 w-full flex-1 text-left '>
                             <TextField
