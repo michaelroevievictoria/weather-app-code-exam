@@ -6,6 +6,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import _ from 'lodash';
 import moment from 'moment';
 import { useSession } from 'next-auth/react';
+import { toast } from 'react-toastify';
 export interface props {
 
 };
@@ -60,7 +61,7 @@ const WeatherForecast: React.FC<props> = ({
 
     const [viewportWidth, setViewportWidth] = useState<number>(window.innerWidth);
 
-    const [searchText, setSearchText] = useState<string>('cavite');
+    const [searchText, setSearchText] = useState<string>('');
     const [isShowTable, setIshowTable] = useState<boolean>(false)
 
     const [weatherData, setWeatherData] = useState<any>(null);
@@ -78,16 +79,9 @@ const WeatherForecast: React.FC<props> = ({
 
     }, []);
 
-
-    const getClassesForColumn = () => {
-        if (viewportWidth <= 600) {
-            return 'block'
-        } else {
-            return 'hidden'
-        }
-        return 'block'; // Display all columns if not in mobile view
+    const notify = () => {
+        toast.error('No data found');
     };
-
     const fetchWeatherData = async () => {
         const API_KEY = '63e44ba0c29de2206284aea9ebb476ec'; // Replace with your OpenWeatherMap API key
         const cityName = searchText; // Replace with the city you want to get the forecast for
@@ -101,10 +95,12 @@ const WeatherForecast: React.FC<props> = ({
                 setWeatherData([data]);
                 setIshowTable(true)
             } else {
+                notify()
                 setIshowTable(false)
                 throw new Error('Failed to fetch data');
             }
         } catch (error) {
+            notify()
             setIshowTable(false)
             console.error('Error fetching data:', error);
         }
@@ -162,7 +158,7 @@ const WeatherForecast: React.FC<props> = ({
                                                         <TableCell
                                                             key={column.id}
                                                             align={column.align}
-                                                            className={`text-[1rem] !font-bold`}
+                                                            className={`text-[1rem] !font-bold `}
                                                             style={{ minWidth: column.minWidth, color: '#736F6F' }}
                                                         >
 
@@ -174,7 +170,7 @@ const WeatherForecast: React.FC<props> = ({
                                     </TableHead> :
                                     null
                                 }
-
+                                {/* second table row */}
                                 <TableHead>
                                     <TableRow>
                                         {columns.map((column) => {
@@ -228,15 +224,10 @@ const WeatherForecast: React.FC<props> = ({
                                                 <TableRow key={index} hover role="checkbox" tabIndex={-1} className='cursor-pointer'>
                                                     {columns.map((column) => {
                                                         const value = row;
-                                                        console.log('value', value)
-                                                        console.log('row', row)
                                                         return (
                                                             <TableCell key={index} align={column.align}
                                                                 className='text-[1rem] bg-lightText font-bold'
-                                                                onClick={async () => {
-
-                                                                }
-                                                                }
+                                                               
                                                             >
                                                                 {column?.id === 'date' ?
                                                                     <>
@@ -288,7 +279,7 @@ const WeatherForecast: React.FC<props> = ({
                 </div>
 
                 :
-                <div className='flex flex-col items-center justify-center h-full text-center'>
+                <div className='flex flex-col items-center justify-center h-full text-center md:px-6 px-8 mx-auto'>
                     <div className='flex flex-col items-center'>
                         <Typography className='text-[#ffff] text-left mt-4 '>
                             {_.get(session, 'user.name', '')}
@@ -296,11 +287,11 @@ const WeatherForecast: React.FC<props> = ({
                         <Typography className='text-[#ffff] text-left mt-4 '>
                             {_.get(session, 'user.email', '')}
                         </Typography>
-                        <div className='mt-24 w-full flex-1 text-left '>
+                        <div className='mt-24 w-full flex-1 text-left px-8'>
                             <TextField
                                 // label="Search"
                                 hiddenLabel
-                                sx={{ background: '#ffff', borderRadius: 50, minWidth: 500 }}
+                                sx={{ background: '#ffff', borderRadius: 50, minWidth: 400, }}
 
                                 placeholder={`City`}
                                 variant="filled"

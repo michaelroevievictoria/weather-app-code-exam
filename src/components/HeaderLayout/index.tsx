@@ -18,6 +18,7 @@ const HeaderLayout: React.FC<props> = ({
 
   const handleSignOut = async () => {
     await signOut(); // Sign out the user
+    
     // Delay the redirection for 1 second (1000 milliseconds)
     window.location.href = '/';
     // router.push('/'); // Redirect to the home page or any other page
@@ -26,7 +27,7 @@ const HeaderLayout: React.FC<props> = ({
   // const isLoggedIn = true; // Example variable indicating user authentication status
   return (
     <main className='bg-primary'>
-      <section className='container md:px-6 sm:px-8 px-0 mx-auto relative bg-[#06283D]'>
+      <section className='container md:px-6 px-8 mx-auto relative bg-[#06283D]'>
         <div className="flex flex-col items-center justify-between">
           <div className="w-full items-center justify-between flex " >
             <img src={icon.src} width={100} height={100} />

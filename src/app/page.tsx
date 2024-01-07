@@ -1,8 +1,4 @@
 'use client'
-import Image from 'next/image'
-import styles from './page.module.css'
-import Switch from "@mui/material/Switch";
-import icon from '/public/images/weather-icon.png'
 import { Button } from '@mui/material';
 import { Typography } from '@mui/material';
 import HeaderLayout from '@/components/HeaderLayout';
@@ -22,6 +18,8 @@ export default function Login() {
       router.push('/weather')
     }
   }, [session])
+
+
   return (
     <>
 
@@ -30,7 +28,7 @@ export default function Login() {
 
 
 
-      <section className='bg-primary h-full pt-32'>
+      <section className='bg-primary h-full pt-32 px-8'>
         <div className='flex flex-col items-center justify-center h-full text-center'>
           <div className='flex flex-col items-center'>
             <Typography className='text-[#ffff] text-left'>

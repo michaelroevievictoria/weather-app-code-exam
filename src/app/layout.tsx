@@ -4,6 +4,7 @@ import './globals.scss'
 import { MuiSetup } from '../../utils/MuiSetup'
 import SessionProvider from '@/components/SessionProvider'
 import { Session } from 'next-auth'
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const inter = Inter({ subsets: ['latin'] })
@@ -25,6 +26,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <SessionProvider>
+          <ToastContainer/>
           <MuiSetup >{children}</MuiSetup>
 
         </SessionProvider>
